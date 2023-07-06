@@ -1,0 +1,24 @@
+<h2>Modifier un poste</h2>
+<form>
+    <fieldset>
+        <label for="id">ID</label>
+        <select name="id" id="id">
+            <?php 
+                foreach($posts as $post)
+                {
+                    echo "<option value=".$post['id'].">".$post['id']."</option>";
+                }
+            ?>
+        </select>
+        <!--<input type="number" name="id" id="id"/>-->
+    </fieldset>
+    <fieldset>
+        <label for="title">Titre</label>
+        <input type="text" name="title" id="title"/>
+    </fieldset>
+    <fieldset>
+        <label for="content">Contenu</label>
+        <input type="textarea" name="content" id="content"/>
+    </fieldset>
+    <input type="submit" value="Modifier" name="submit-edit-post" id="submit-edit-post"/>
+</form>

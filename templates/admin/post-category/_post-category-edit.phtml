@@ -1,0 +1,24 @@
+<h2>Modifier une catégorie</h2>
+<form>
+    <fieldset>
+        <label for="id">ID</label>
+        <select name="id" id="id">
+            <?php 
+                foreach($categories as $cat)
+                {
+                    echo "<option value=".$cat['id'].">".$cat['id']."</option>";
+                }
+            ?>
+        </select>
+        <!--<input type="number" name="id" id="id"/>-->
+    </fieldset>
+    <fieldset>
+        <label for="name">Nom</label>
+        <input type="text" name="name" id="name"/>
+    </fieldset>
+    <fieldset>
+        <label for="description">Description</label>
+        <input type="textarea" name="description" id="description"/>
+    </fieldset>
+    <input type="submit" value="Modifier" name="submit-edit-cat" id="submit-edit-cat"/>
+</form>

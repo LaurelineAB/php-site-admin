@@ -1,5 +1,8 @@
 <?php
 
+require "User.php";
+require "PostCategory.php";
+
 class Post {
     
     //ATTRIBUTES

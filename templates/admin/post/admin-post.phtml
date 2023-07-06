@@ -1,0 +1,25 @@
+<h1>Vos postes</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Titre</th>
+            <th>Contenu</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+            foreach($posts as $post)
+            {
+                echo
+                "<tr>
+                    <td>".$post['title']."</td>
+                    <td>".$post['content']."</td>
+                </tr>";
+            }
+        ?>
+    </tbody>
+</table>
+<?php
+    require "_post-create.phtml";
+    require "_post-edit.phtml";
+?>
