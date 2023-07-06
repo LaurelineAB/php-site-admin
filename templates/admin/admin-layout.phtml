@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Site Admin - Connecté</title>
+</head>
+<body>
+    <?php
+    
+        require "partials/_admin-header.phtml";
+        
+        if($template === "admin-post")
+        {
+            $folder = "post";
+        }
+        else if ($template === "admin-post-category")
+        {
+            $folder = "post-category";
+        }
+        require "$folder/$template.phtml";
+        require "partials/_admin-footer.phtml";
+    
+    ?>
+</body>
+</html>
