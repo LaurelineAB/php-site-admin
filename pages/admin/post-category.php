@@ -2,6 +2,6 @@
 
 $template = "admin-post-category";
 
-require "../../templates/admin/admin-layout.phtml";
+require "templates/admin/admin-layout.phtml";
 
 ?>

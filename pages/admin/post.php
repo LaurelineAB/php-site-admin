@@ -2,6 +2,6 @@
 
 $template = "admin-post";
 
-require "../../templates/admin/admin-layout.phtml";
+require "templates/admin/admin-layout.phtml";
 
 ?>

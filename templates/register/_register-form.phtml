@@ -1,23 +1,23 @@
-<form action="index.php" method="POST">
+<form action="index.php?route=admin-posts" method="POST">
     <fieldset>
         <label for="first_name">Prénom</label>
-        <input type="text" name="first_name" id="first_name"/>
+        <input type="text" name="first_name" id="first_name" required/>
     </fieldset>
     <fieldset>
         <label for="last_name">Nom de famille</label>
-        <input type="text" name="last_name" id="last_name"/>
+        <input type="text" name="last_name" id="last_name" required/>
     </fieldset>
     <fieldset>
         <label for="email">Email</label>
-        <input type="email" name="email" id="email"/>
+        <input type="email" name="email" id="email" required/>
     </fieldset>
     <fieldset>
         <label for="password">Mot de passe</label>
-        <input type="password" name="password" id="password"/>
+        <input type="password" name="password" id="password" required/>
     </fieldset>
     <fieldset>
         <label for="confirmPassword">Confirmer le mot de passe</label>
-        <input type="password" name="confirmPassword" id="confirmPassword"/>
+        <input type="password" name="confirmPassword" id="confirmPassword" required/>
     </fieldset>
     <fieldset>
         <input type="submit" value="Créer un compte" name="submit-register" id="submit-register"/>
