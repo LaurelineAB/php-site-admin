@@ -1,16 +1,8 @@
 <h2>Modifier une catégorie</h2>
-<form>
+<form action="index.php?route=admin-categories" method="POST">
     <fieldset>
         <label for="id">ID</label>
-        <select name="id" id="id">
-            <?php 
-                foreach($categories as $cat)
-                {
-                    echo "<option value=".$cat['id'].">".$cat['id']."</option>";
-                }
-            ?>
-        </select>
-        <!--<input type="number" name="id" id="id"/>-->
+        <input type="number" name="id" id="id"/>
     </fieldset>
     <fieldset>
         <label for="name">Nom</label>

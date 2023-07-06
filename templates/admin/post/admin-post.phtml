@@ -8,12 +8,15 @@
     </thead>
     <tbody>
         <?php
-            foreach($posts as $post)
+            // echo "<pre>";
+            // print_r($_SESSION['user']);
+            // echo "</pre>";
+            foreach($_SESSION['user']->getPosts() as $post)
             {
                 echo
                 "<tr>
-                    <td>".$post['title']."</td>
-                    <td>".$post['content']."</td>
+                    <td>".$post->getTitle()."</td>
+                    <td>".$post->getContent()."</td>
                 </tr>";
             }
         ?>

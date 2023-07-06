@@ -1,10 +1,14 @@
 <?php
 
-session_start();
 
 require "models/Post.php";
+
+session_start();
+
 require "logic/database.php";
 
+
+$_SESSION['categories'] = getAllCategories($db);
 
 if(isset($_POST['submit-register']))
 {
@@ -31,11 +35,30 @@ if(isset($_POST['submit-login']))
     $posts = getPostsByUser($_SESSION['user'], $db);
 }
 
+//CREER UNE NOUVELLE CATEGORIE
 if(isset($_POST['submit-new-cat']))
 {
     $name = $_POST['name'];
     $description = $_POST['description'];
     $newCat = createCategory($name, $description, $db);
+}
+
+//MODIFIER UNE CATEGORIE
+if(isset($_POST['submit-edit-cat']))
+{
+    $name = $_POST['name'];
+    $description = $_POST['description'];
+    $id = $_POST['id'];
+    editCategory($id, $name, $description, $db);
+}
+
+//CREER UN NOUVEAU POST
+if (isset($_POST['submit-new-post']))
+{
+    $title = $_POST['title'];
+    $content = $_POST['content'];
+    $cat = $_POST['category'];
+    createPost($_SESSION['user'], $title, $content, $cat, $db);
 }
 
 require "logic/router.php";

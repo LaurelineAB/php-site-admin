@@ -85,7 +85,7 @@ class User {
     public function addPost(Post $post) : array
     {
         array_push($this->posts, $post);
-        return $posts;
+        return $this->posts;
     }
     
     public function removePost(Post $post) : array

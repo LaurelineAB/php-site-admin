@@ -1,5 +1,5 @@
 <h2>Nouveau poste</h2>
-<form>
+<form action="index.php?route=admin-posts" method="POST">
     <fieldset>
         <label for="title">Titre</label>
         <input type="text" name="title" id="title"/>
@@ -7,6 +7,19 @@
     <fieldset>
         <label for="content">Contenu</label>
         <input type="textarea" name="content" id="content"/>
+    </fieldset>
+    <fieldset>
+        <label for="category">Catégorie</label>
+        <select name="category" id="category">
+            <?php
+                
+                foreach($_SESSION['categories'] as $cat)
+                {
+                    echo "<option value='".$cat['id']."'>".$cat['name']."</option>";
+                }
+            ?>
+        </select>
+        <!--<input type="text" name="category" id="category"/>-->
     </fieldset>
     <input type="submit" value="Créer" name="submit-new-post" id="submit-new-post"/>
 </form>
