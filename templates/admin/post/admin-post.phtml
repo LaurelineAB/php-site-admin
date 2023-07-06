@@ -8,9 +8,6 @@
     </thead>
     <tbody>
         <?php
-            // echo "<pre>";
-            // print_r($_SESSION['user']);
-            // echo "</pre>";
             foreach($_SESSION['user']->getPosts() as $post)
             {
                 echo
