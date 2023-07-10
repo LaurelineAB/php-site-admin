@@ -1,12 +1,12 @@
-<h2>Modifier un poste</h2>
+<h2>Modifier un post</h2>
 <form action="index.php?route=admin-posts" method="POST">
     <fieldset>
-        <label for="id">ID</label>
+        <label for="id">Post</label>
         <select name="id" id="id">
             <?php 
-                foreach($_SESSION['user']->getPosts as $post)
+                foreach($_SESSION['user']->getPosts() as $post)
                 {
-                    echo "<option value=".$post->getId.">".$post->getTitle."</option>";
+                    echo "<option value=".$post->getId().">".$post->getTitle()."</option>";
                 }
             ?>
         </select>
@@ -19,6 +19,17 @@
     <fieldset>
         <label for="content">Contenu</label>
         <input type="textarea" name="content" id="content"/>
+    </fieldset>
+    <fieldset>
+        <label for="category">Catégorie</label>
+        <select name="category" id="category">
+            <?php 
+                foreach($_SESSION['categories'] as $category)
+                {
+                    echo "<option value=".$category['id'].">".$category['name']."</option>";
+                }
+            ?>
+        </select>
     </fieldset>
     <input type="submit" value="Modifier" name="submit-edit-post" id="submit-edit-post"/>
 </form>

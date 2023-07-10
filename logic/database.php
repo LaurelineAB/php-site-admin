@@ -14,7 +14,8 @@ $db = new PDO(
     $password
     );
   
- 
+
+//RECUPERER UN UTILISATEUR
 function loadUser(string $email, string $password, PDO $db) : User
 {
     $query = $db->prepare(
@@ -30,6 +31,7 @@ function loadUser(string $email, string $password, PDO $db) : User
     }
 }
 
+//CREER UN UTILISATEUR
 function saveUser(User $user, PDO $db) : User
 {
     $query = $db->prepare("INSERT INTO users (first_name, last_name, email, password) VALUES (:first_name, :last_name, :email, :password);" );
@@ -48,14 +50,7 @@ function saveUser(User $user, PDO $db) : User
     return $user;
 }
 
-function getPostsByUser (User $user, PDO $db) : array
-{
-    $query = $db->prepare("SELECT * FROM posts WHERE posts.author = :userId");
-    $parameters = ['userId' => $user->getId()];
-    $query->execute($parameters);
-    $posts = $query->fetchAll(PDO::FETCH_ASSOC);
-    return $posts;
-}
+//TOUTES LES CATAGORIES
 function getAllCategories(PDO $db) : array
 {
     $query = $db->prepare("SELECT * FROM post_categories");
@@ -64,23 +59,59 @@ function getAllCategories(PDO $db) : array
     return $categories;
 }
 
+//SELECT UNE CATEGORIE A PARTIR D'UN ID
+function getCategoryById(int $id, PDO $db) : PostCategory
+{
+    $query = $db->prepare("SELECT * FROM post_categories WHERE post_categories.id = ?");
+    $query->execute([$id]);
+    $fetch = $query->fetch(PDO::FETCH_ASSOC);
+    $category = new PostCategory($fetch['name'], $fetch['description']);
+    return $category;
+}
+
+//RECUPERER LES CATEGORIES D'UN UTILISATEUR
 function getCategoriesByUser (User $user, PDO $db) : array
 {
     $query = $db->prepare("SELECT category FROM posts WHERE posts.author = :userId");
     $parameters = ['userId' => $user->getId()];
     $query->execute($parameters);
     $postCategories = $query->fetchAll(PDO::FETCH_ASSOC);
-    $categories = [];
+    $categoriesId = [];
     foreach($postCategories as $category)
     {
-        if (!array_search($category, $categories))
+        if (array_search($category, $categoriesId) === false)
         {
-            array_push($categories, $category);
+            array_push($categoriesId, $category);
         }
+    }
+    $categories = [];
+    foreach($categoriesId as $id)
+    {
+        $category = getCategoryById($id['category'], $db);
+        array_push($categories, $category);
     }
     return $categories;
 }
 
+//RECUPERER LES POSTS D'UN UTILISATEUR
+function getPostsByUser (User $user, PDO $db) : array
+{
+    $query = $db->prepare("SELECT * FROM posts WHERE posts.author = :userId");
+    $parameters = ['userId' => $user->getId()];
+    $query->execute($parameters);
+    $fetch = $query->fetchAll(PDO::FETCH_ASSOC);
+    $posts = [];
+    foreach($fetch as $item)
+    {
+        $category = getCategoryById($item['category'], $db);
+        $post = new Post($item['title'], $item['content'], $user, $category);
+        $post->setId($item['id']);
+        array_push($posts, $post);
+    }
+    return $posts;
+}
+
+//CREER UNE CATEGORIE
 function createCategory(string $name, string $description, PDO $db) : PostCategory
 {
     $query = $db->prepare("INSERT INTO post_categories (name, description) values (:name, :description)");
@@ -98,6 +129,7 @@ function createCategory(string $name, string $description, PDO $db) : PostCatego
     return $cat;
 }
 
+//MODIFIER UNE CATEGORIE
 function editCategory(int $id, string $name, string $description, PDO $db) : void
 {
     $query = $db->prepare("UPDATE post_categories SET name = :name, description = :description WHERE post_categories.id = :id");
@@ -111,15 +143,6 @@ function editCategory(int $id, string $name, string $description, PDO $db) : voi
 }
 
 
-//CREER UNE CATEGORIE A PARTIR D'UN ID
-function getCategoryById(int $id, PDO $db) : PostCategory
-{
-    $query = $db->prepare("SELECT * FROM post_categories WHERE post_categories.id = ?");
-    $query->execute([$id]);
-    $fetch = $query->fetch(PDO::FETCH_ASSOC);
-    $category = new PostCategory($fetch['name'], $fetch['description']);
-    return $category;
-}
 
 //CREER UN NOUVEAU POST
 function createPost(User $user, string $title, string $content, int $cat, PDO $db) : void
@@ -141,6 +164,29 @@ function createPost(User $user, string $title, string $content, int $cat, PDO $d
     $post->setId($fetch['id']);
     $user->addPost($post);
     $category->addPost($post);
+}
+
+//MODIFIER UN POST
+function editPost(int $id, string $title, string $content, int $category, PDO $db) : void
+{
+    $query = $db->prepare("UPDATE posts SET title = :title, content = :content, category = :category WHERE posts.id = :id");
+    $parameters =
+    [
+        'title' => $title,
+        'content' => $content,
+        'category' => $category,
+        'id' => $id
+    ];
+    $query->execute($parameters);
+}
+
+//TOUS LES POSTS
+function getAllPosts(PDO $db) : array
+{
+    $query = $db->prepare("SELECT * FROM posts");
+    $query->execute();
+    $posts = $query->fetchAll(PDO::FETCH_ASSOC);
+    return $posts;
 }
   
 ?>

@@ -9,7 +9,9 @@ require "logic/database.php";
 
 
 $_SESSION['categories'] = getAllCategories($db);
+$_SESSION['posts'] = getAllPosts($db);
 
+//INSCRIPTION
 if(isset($_POST['submit-register']))
 {
     $first_name = $_POST['first_name'];
@@ -26,6 +28,7 @@ if(isset($_POST['submit-register']))
     saveUser($user, $db);
 }
 
+//CONNEXION
 if(isset($_POST['submit-login']))
 {
     $login = $_POST['login'];
@@ -33,6 +36,8 @@ if(isset($_POST['submit-login']))
     $user = loadUser($login, $password, $db);
     $_SESSION['user'] = $user;
     $posts = getPostsByUser($_SESSION['user'], $db);
+    $_SESSION['user']->setPosts($posts);
+    $_SESSION['user-categories'] = getCategoriesByUser($_SESSION['user'], $db);
 }
 
 //CREER UNE NOUVELLE CATEGORIE
@@ -61,6 +66,24 @@ if (isset($_POST['submit-new-post']))
     createPost($_SESSION['user'], $title, $content, $cat, $db);
 }
 
+//MODIFIER UN POST
+if(isset($_POST['submit-edit-post']))
+{
+    $title = $_POST['title'];
+    $content = $_POST['content'];
+    $category = $_POST['category'];
+    $id = $_POST['id'];
+    editPost($id, $title, $content, $category, $db);
+    $posts = getPostsByUser($_SESSION['user'], $db);
+    $_SESSION['user']->setPosts($posts);
+}
+
+//DECONNEXION
+if(isset($_POST['logout']))
+{
+    require "pages/admin/logout.php";
+}
+
 require "logic/router.php";
 if (isset($_GET['route']))
 {
@@ -70,4 +93,5 @@ else
 {
     checkRoute("");
 }
+
 ?>

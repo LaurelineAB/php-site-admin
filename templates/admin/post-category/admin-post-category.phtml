@@ -8,12 +8,12 @@
     </thead>
     <tbody>
         <?php
-            foreach($categories as $category)
+            foreach($_SESSION['user-categories'] as $category)
             {
                 echo
                 "<tr>
-                    <td>".$category['name']."</td>
-                    <td>".$category['description']."</td>
+                    <td>".$category->getName()."</td>
+                    <td>".$category->getDescription()."</td>
                 </tr>";
             }
         ?>
